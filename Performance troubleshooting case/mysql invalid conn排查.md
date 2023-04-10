@@ -45,10 +45,15 @@ sudo tcpdump -i lo port 3306 -w conn.pcap
 也可以用wireshark看下发包和接收包的交互图。
 选择菜单栏的Statistics->Flow Graph，就可以打开数据流图窗口。
 ![image.png](https://s2.loli.net/2023/03/07/MT7hVeYKDcqru2H.png)可以看到过程如下：
+
 1，11:55:49.05 在客户端向mysql 发起 Request Execute Statement 执行sql的命令，
+
 2，mysql 回复Ack
+
 3, 但是mysql并没有把执行结果返回给客户端，所以客户端等待了10s后发起关闭连接的命令。
+
 4，mysql 在11:55:59.27才返回了执行结果。
+
 5,但是这个时候客户端已经把连接关闭了，对已经关闭的连接发送数据触发了RST信号，所以客户端回应服务器RST
 
 看到这里，已经可以很明确的任务是服务器执行sql超时了，或者说是服务器返回结果时超时了。但是还要更进一步思考下，mysql为什么有时执行sql慢呢？同样的sql为啥再执行一遍会很快？慢是由于什么因素导致的呢？

@@ -49,19 +49,19 @@ writech   chan writeRequest   // written by roundTrip; read by writeLoop
 ```go
 // src/net/http/transport.go:2528
 func (pc *persistConn) roundTrip(req *transportRequest) (resp *Response, err error) {
-    ....
-    // src/net/http/transport.go:2594
-    	pc.writech <- writeRequest{req, writeErrCh, continueCh}
-    ...
-    // src/net/http/transport.go:2598
-    pc.reqch <- requestAndChan{
-		req:        req.Request,
-		cancelKey:  req.cancelKey,
-		ch:         resc,
-		addedGzip:  requestedGzip,
-		continueCh: continueCh,
-		callerGone: gone,
-	}
+....
+// src/net/http/transport.go:2594
+pc.writech <- writeRequest{req, writeErrCh, continueCh}
+...
+// src/net/http/transport.go:2598
+pc.reqch <- requestAndChan{
+req:        req.Request,
+cancelKey:  req.cancelKey,
+ch:         resc,
+addedGzip:  requestedGzip,
+continueCh: continueCh,
+callerGone: gone,
+}
 }
 ```
 #### 请求发送过程
@@ -71,11 +71,11 @@ persistConn的writeloop 方法是连接被dialConn方法创建的时候，就会
 ```go
 // src/net/http/transport.go:1560
 func (t *Transport) dialConn(ctx context.Context, cm connectMethod) (pconn *persistConn, err error) {
-    .... 省略了部分代码
-   // src/net/http/transport.go:1747 
-   go pconn.readLoop()
-	go pconn.writeLoop()
-	return pconn, nil
+.... 省略了部分代码
+// src/net/http/transport.go:1747 
+go pconn.readLoop()
+go pconn.writeLoop()
+return pconn, nil
 }
 ```
 
@@ -84,13 +84,13 @@ func (t *Transport) dialConn(ctx context.Context, cm connectMethod) (pconn *pers
 ```go
 // src/net/http/transport.go:2383 
 func (pc *persistConn) writeLoop() {
-	defer close(pc.writeLoopDone)
-	for {
-		select {
-		case wr := <-pc.writech:
-			startBytesWritten := pc.nwrite
-			err := wr.req.Request.write(pc.bw, pc.isProxy, wr.req.extra, pc.waitForContinue(wr.continueCh))
-			.... 省略部分代码
+defer close(pc.writeLoopDone)
+for {
+select {
+case wr := <-pc.writech:
+startBytesWritten := pc.nwrite
+err := wr.req.Request.write(pc.bw, pc.isProxy, wr.req.extra, pc.waitForContinue(wr.continueCh))
+.... 省略部分代码
 }
 ```
 
@@ -102,26 +102,26 @@ func (pc *persistConn) writeLoop() {
 ```go
 // src/net/http/transport.go:2528
 func (pc *persistConn) roundTrip(req *transportRequest) (resp *Response, err error) {
-    .... 省略部分代码
-    // src/net/http/transport.go:2598
-    pc.reqch <- requestAndChan{
-		req:        req.Request,
-		cancelKey:  req.cancelKey,
-		ch:         resc,
-		addedGzip:  requestedGzip,
-		continueCh: continueCh,
-		callerGone: gone,
-	}
-	    .... 省略部分代码
+.... 省略部分代码
+// src/net/http/transport.go:2598
+pc.reqch <- requestAndChan{
+req:        req.Request,
+cancelKey:  req.cancelKey,
+ch:         resc,
+addedGzip:  requestedGzip,
+continueCh: continueCh,
+callerGone: gone,
+}
+.... 省略部分代码
 }
 
 // src/net/http/transport.go:1560
 func (t *Transport) dialConn(ctx context.Context, cm connectMethod) (pconn *persistConn, err error) {
-    .... 省略了部分代码
-   // src/net/http/transport.go:1747 
-   go pconn.readLoop()
-	go pconn.writeLoop()
-	return pconn, nil
+.... 省略了部分代码
+// src/net/http/transport.go:1747 
+go pconn.readLoop()
+go pconn.writeLoop()
+return pconn, nil
 }
 ```
 
@@ -131,78 +131,78 @@ readloop读取缓冲区数据大致流程如下:
 ```go
 // src/net/http/transport.go:2052
 func (pc *persistConn) readLoop() {
-    .... 省略部分代码
-    for alive {
-		
-		... 省略部分代码
-		
-		rc := <-pc.reqch
-		trace := httptrace.ContextClientTrace(rc.req.Context())
+.... 省略部分代码
+for alive {
 
-		var resp *Response
-		if err == nil {
-		   // 读取响应
-			resp, err = pc.readResponse(rc, trace)
-		} else {
-			err = transportReadFromServerError{err}
-			closeErr = err
-		}
+... 省略部分代码
 
-		...... 
-		
-		waitForBodyRead := make(chan bool, 2)
-		body := &bodyEOFSignal{
-			body: resp.Body,
-			earlyCloseFn: func() error {
-				waitForBodyRead <- false
-				<-eofc // will be closed by deferred call at the end of the function
-				return nil
+rc := <-pc.reqch
+trace := httptrace.ContextClientTrace(rc.req.Context())
 
-			},
-			fn: func(err error) error {
-				isEOF := err == io.EOF
-				waitForBodyRead <- isEOF
-				if isEOF {
-					<-eofc // see comment above eofc declaration
-				} else if err != nil {
-					if cerr := pc.canceled(); cerr != nil {
-						return cerr
-					}
-				}
-				return err
-			},
-		}
+var resp *Response
+if err == nil {
+// 读取响应
+resp, err = pc.readResponse(rc, trace)
+} else {
+err = transportReadFromServerError{err}
+closeErr = err
+}
 
-		resp.Body = body
-		
-		.......
-       select {
-      //  rc 是pc.reqch的引用，这里将响应结果传递给了这个通道
-		case rc.ch <- responseAndError{res: resp}:
-		case <-rc.callerGone:
-			return
-		} 
-      // 阻塞等待响应信息被读取完毕或者应用层关闭resp.Body 
-		select {
-		case bodyEOF := <-waitForBodyRead:
-			replaced := pc.t.replaceReqCanceler(rc.cancelKey, nil) 			alive = alive &&
-				bodyEOF &&
-				!pc.sawEOF &&
-				pc.wroteRequest() &&
-				replaced && tryPutIdleConn(trace)
-			if bodyEOF {
-				eofc <- struct{}{}
-			}
-		case <-rc.req.Cancel:
-			alive = false
-			pc.t.CancelRequest(rc.req)
-		case <-rc.req.Context().Done():
-			alive = false
-			pc.t.cancelRequest(rc.cancelKey, rc.req.Context().Err())
-		case <-pc.closech:
-			alive = false
-		}
-	}
+......
+
+waitForBodyRead := make(chan bool, 2)
+body := &bodyEOFSignal{
+body: resp.Body,
+earlyCloseFn: func() error {
+waitForBodyRead <- false
+<-eofc // will be closed by deferred call at the end of the function
+return nil
+
+},
+fn: func(err error) error {
+isEOF := err == io.EOF
+waitForBodyRead <- isEOF
+if isEOF {
+<-eofc // see comment above eofc declaration
+} else if err != nil {
+if cerr := pc.canceled(); cerr != nil {
+return cerr
+}
+}
+return err
+},
+}
+
+resp.Body = body
+
+.......
+select {
+//  rc 是pc.reqch的引用，这里将响应结果传递给了这个通道
+case rc.ch <- responseAndError{res: resp}:
+case <-rc.callerGone:
+return
+}
+// 阻塞等待响应信息被读取完毕或者应用层关闭resp.Body 
+select {
+case bodyEOF := <-waitForBodyRead:
+replaced := pc.t.replaceReqCanceler(rc.cancelKey, nil) 			alive = alive &&
+bodyEOF &&
+!pc.sawEOF &&
+pc.wroteRequest() &&
+replaced && tryPutIdleConn(trace)
+if bodyEOF {
+eofc <- struct{}{}
+}
+case <-rc.req.Cancel:
+alive = false
+pc.t.CancelRequest(rc.req)
+case <-rc.req.Context().Done():
+alive = false
+pc.t.cancelRequest(rc.cancelKey, rc.req.Context().Err())
+case <-pc.closech:
+alive = false
+}
+}
 }
 ```
 
@@ -212,47 +212,48 @@ readloop 通过**pc.readResponse** 读取一次http响应后，会将响应体�
 
 ```go
 func (es *bodyEOFSignal) Read(p []byte) (n int, err error) {
-	
-	....省略部分代码 
-	
-	n, err = es.body.Read(p)
-	if err != nil {
-		es.mu.Lock()
-		defer es.mu.Unlock()
-		if es.rerr == nil {
-			es.rerr = err
-		}
-		err = es.condfn(err)
-	}
-	return
+
+....省略部分代码
+
+n, err = es.body.Read(p)
+if err != nil {
+es.mu.Lock()
+defer es.mu.Unlock()
+if es.rerr == nil {
+es.rerr = err
+}
+err = es.condfn(err)
+}
+return
 }
 
 func (es *bodyEOFSignal) Close() error {
-	es.mu.Lock()
-	defer es.mu.Unlock()
-	if es.closed {
-		return nil
-	}
-	es.closed = true
-	if es.earlyCloseFn != nil && es.rerr != io.EOF {
-		return es.earlyCloseFn()
-	}
-	err := es.body.Close()
-	return es.condfn(err)
+es.mu.Lock()
+defer es.mu.Unlock()
+if es.closed {
+return nil
+}
+es.closed = true
+if es.earlyCloseFn != nil && es.rerr != io.EOF {
+return es.earlyCloseFn()
+}
+err := es.body.Close()
+return es.condfn(err)
 }
 
 // caller must hold es.mu.
 func (es *bodyEOFSignal) condfn(err error) error {
-	if es.fn == nil {
-		return err
-	}
-	err = es.fn(err)
-	es.fn = nil
-	return err
+if es.fn == nil {
+return err
+}
+err = es.fn(err)
+es.fn = nil
+return err
 }
 ```
 
 调用**bodyEOFSignal.Close**方法最终会调到bodyEOFSignal的fn方法或者earlyCloseFn方法，earlyCloseFn在Close响应体的时候，发现响应体还没有被完全读取时会被调用。
+
 调用**bodyEOFSignal.Read**方法时，当read读取完毕后err将会是 io.EOF，此时err不为空将会调用condfn 方法对fn方法进行调用。
 
 fn,earlyCloseFn函数是在哪里声明的呢？还记得readloop源码里bodyEOFSignal的声明吗，我这里再展示一下上述的源码部分:
@@ -298,15 +299,15 @@ select {
 ```
 
 
-现在再来看我们go协程泄漏的代码在那里，是在readloop和writelooop函数中，**泄漏的原因就在于读取响应体后没有将persistConn重新放回连接池里，执行的readloop函数的协程一直阻塞等待waitForBodyRead消息的到达，而后续的请求又新建了连接，从而新起了readloop协程，writeloop协程，同样也阻塞在这里，导致协程数量越来越多，从而有协程泄漏的现象**。
+现在再来看我们go协程泄漏的代码在那里，是在readloop和writelooop函数中，**泄漏的原因就在于读取响应体后没有对响应体将进行显示的关闭或者没有把响应体的内容读取完毕，导致没有向waitForBodyRead通道发送消息，而执行的readloop函数的协程一直阻塞等待waitForBodyRead消息的到达，后续的请求又新建了连接，从而新起了readloop协程，writeloop协程，同样由于响应体未关闭也阻塞在这里，导致协程数量越来越多，从而有协程泄漏的现象**。
 
 *一般情况下，我们都会完整的读取完resp.Body，所以即使不显示的关闭body，也不会有泄漏问题产生*，但我们的程序刚好有段逻辑需要只需要读取body的前10字节，代码如下:
 
 ```go
 _, err = ioutil.ReadAll(io.LimitReader(resp.Body, 10))
-	if err != nil && err != io.EOF {
-		t.Fatal(err)
-	}
+if err != nil && err != io.EOF {
+t.Fatal(err)
+}
 ```
 读取完后也没有关闭resp.Body 并且类似的请求越来越多，导致我们的协程数量越来越多了。
 
