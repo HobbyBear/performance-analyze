@@ -30,7 +30,6 @@
 
 [网络问题排查手段]( https://github.com/HobbyBear/pprof/blob/main/Performance%20Troubleshooting%20Basics/%E7%BD%91%E7%BB%9C%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5%E6%89%8B%E6%AE%B5.md )
 
-[mysql性能分析手段](https://github.com/HobbyBear/pprof/blob/main/Performance%20Troubleshooting%20Basics/mysql%20%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90.md )
 
 
 ## 性能排查案例
