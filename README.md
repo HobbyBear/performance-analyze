@@ -7,7 +7,7 @@
 
 整个系列会囊括自己对性能排查的一些思路以及性能分析工具的使用，原理的介绍，也会包含很多线上真实的性能排查案例， 愿往后的性能排查不再抓瞎。
 
-
+以下所有文章均来自于我的公众号 [蓝胖子的编程梦](https://mp.weixin.qq.com/s/LdqzLBuw0H0nPOn4neLn-A) ，**b站** 也有同名[视频号]( https://www.bilibili.com/video/BV1vL4y1P7fj/)，定期分享性能分析，云原生相关知识，成体系的分享，不再让知识碎片化。
 
 ## golang pprof tools  <img src="https://img.shields.io/badge/golang-pprof-green.svg">
 
