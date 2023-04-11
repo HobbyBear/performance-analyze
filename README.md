@@ -69,4 +69,4 @@
 
 ## 公众号
 
-![名片.jpeg](https://s2.loli.net/2023/04/11/qIYHOyopelCWs9m.jpg)
+![image.png](https://s2.loli.net/2023/04/11/JvF4AylsPKINegu.jpg)

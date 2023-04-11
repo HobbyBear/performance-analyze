@@ -20,5 +20,5 @@
 
 [golang pprof 监控系列(5) —— cpu 使用 统计原理]( pprof监控系列(5)——cpu使用率统计原理.md)
 
-[[golang pprof 监控系列(6) 内置的 metric指标 统计原理.md](pprof监控系列(6)——内置的metric指标统计原理.md)
+[golang pprof 监控系列(6) 内置的 metric指标 统计原理.md](pprof监控系列(6)——内置的metric指标统计原理.md)
 

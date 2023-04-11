@@ -1,6 +1,6 @@
 # io 性能问题分析思路
 
-之前我们分析了 [网络](https://github.com/HobbyBear/performance-analyze/blob/main/Performance%2520Troubleshooting%2520Basics/%25E7%25BD%2591%25E7%25BB%259C%25E9%2597%25AE%25E9%25A2%2598%25E6%258E%2592%25E6%259F%25A5%25E6%2589%258B%25E6%25AE%25B5.md) 和 [cpu，内存](https://github.com/HobbyBear/performance-analyze/blob/main/Performance%2520Troubleshooting%2520Basics/cpu%25E5%2592%258C%25E5%2586%2585%25E5%25AD%2598%25E7%259A%2584%25E6%2580%25A7%25E8%2583%25BD%25E9%2597%25AE%25E9%25A2%2598%2520%25E5%2588%2586%25E6%259E%2590%25E6%2580%259D%25E8%25B7%25AF.md) 的性能问题排查思路，今天我们来看看针对磁盘io的性能问题 应该如何去排查。
+之前我们分析了 [网络](./(1)网络问题排查手段.md) 和 [cpu和内存](./(2)cpu和内存的性能问题分析思路.md)的性能问题排查思路，今天我们来看看针对磁盘io的性能问题 应该如何去排查。
 
 排查的总体思路不变，我这里再列举下：
 
@@ -75,7 +75,7 @@ Actual DISK READ:       0.00 B/s | Actual DISK WRITE:       2.16 M/s
 
 这里我还是用golang来举例，golang内置有go trace工具，能够对程序中的系统调用延迟进行采样分析，其实和排查由于代码引起的网络问题类似，如果io是由于进程代码不合理的逻辑达到瓶颈，那么必然用go trace去对进程代码进行分析的时候，会发现大部分延迟采点应该都集中在代码那处不合理的读写磁盘逻辑上。
 
-关于go trace的原理以及使用，我在[golang pprof 监控系列(1) —— go trace 统计原理与使用]( https://github.com/HobbyBear/performance-analyze/blob/de48368f6fbbc1a9de7f98ab710d3482447f13ce/golang%20pprof%20tools/golang%20pprof%20%E7%9B%91%E6%8E%A7%E7%B3%BB%E5%88%97(1)%20%E2%80%94%E2%80%94%20go%20trace%20%E7%BB%9F%E8%AE%A1%E5%8E%9F%E7%90%86%E4%B8%8E%E4%BD%BF%E7%94%A8.md )里比较详细的介绍。
+关于go trace的原理以及使用，我在[golang pprof 监控系列(1) —— go trace 统计原理与使用](../pprof_tools/pprof监控系列(1)——go_trace统计原理与使用.md)
 
 
 

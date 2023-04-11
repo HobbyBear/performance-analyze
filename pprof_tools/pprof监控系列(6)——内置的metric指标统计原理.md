@@ -3,15 +3,17 @@
 大家好，我是蓝胖子，前面几个系列介绍完了golang pprof 工具各种指标的统计原理。
 
 
-[golang pprof 监控系列(1) —— go trace 统计原理与使用](https://github.com/HobbyBear/pprof/blob/main/golang%20pprof%20tools/golang%20pprof%20%E7%9B%91%E6%8E%A7%E7%B3%BB%E5%88%97(1)%20%E2%80%94%E2%80%94%20go%20trace%20%E7%BB%9F%E8%AE%A1%E5%8E%9F%E7%90%86%E4%B8%8E%E4%BD%BF%E7%94%A8.md)
+[golang pprof 监控系列(1) —— go trace 统计原理与使用](pprof监控系列(1)——go_trace统计原理与使用.md)
 
-[golang pprof监控系列（2） —— memory，block，mutex 使用](https://github.com/HobbyBear/pprof/blob/main/golang%20pprof%20tools/golang%20pprof%E7%9B%91%E6%8E%A7%E7%B3%BB%E5%88%97(2%EF%BC%89%20%E2%80%94%E2%80%94%20%20memory%EF%BC%8Cblock%EF%BC%8Cmutex%20%E4%BD%BF%E7%94%A8.md )
 
-[golang pprof 监控系列(3) —— memory，block，mutex 统计原理](https://github.com/HobbyBear/pprof/blob/main/golang%20pprof%20tools/golang%20pprof%20%E7%9B%91%E6%8E%A7%E7%B3%BB%E5%88%97(3)%20%E2%80%94%E2%80%94%20memory%EF%BC%8Cblock%EF%BC%8Cmutex%20%E7%BB%9F%E8%AE%A1%E5%8E%9F%E7%90%86.md )
+[golang pprof监控系列（2） —— memory，block，mutex 使用]( pprof监控系列(2)——memory,block,mutex的使用.md)
 
-[golang pprof 监控系列(4) —— goroutine thread 统计原理]( https://github.com/HobbyBear/pprof/blob/main/golang%20pprof%20tools/golang%20pprof%20%E7%9B%91%E6%8E%A7%E7%B3%BB%E5%88%97(4)%20%E2%80%94%E2%80%94%20goroutine%20thread%20%20%E7%BB%9F%E8%AE%A1%E5%8E%9F%E7%90%86.md)
+[golang pprof 监控系列(3) —— memory，block，mutex 统计原理](pprof监控系列(3)——memory,block,mutex统计原理.md)
 
-[golang pprof 监控系列(5) —— cpu 使用 统计原理]( https://github.com/HobbyBear/pprof/blob/main/golang%20pprof%20tools/golang%20pprof%20%E7%9B%91%E6%8E%A7%E7%B3%BB%E5%88%97(5)%20%E2%80%94%E2%80%94%20cpu%20%E4%BD%BF%E7%94%A8%20%E7%BB%9F%E8%AE%A1%E5%8E%9F%E7%90%86.md )
+
+[golang pprof 监控系列(4) —— goroutine thread 统计原理]( pprof监控系列(4)——goroutine_thread统计原理.md)
+
+[golang pprof 监控系列(5) —— cpu 使用 统计原理]( pprof监控系列(5)——cpu使用率统计原理.md)
 
 
 
