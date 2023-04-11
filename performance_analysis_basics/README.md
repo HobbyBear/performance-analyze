@@ -4,11 +4,10 @@
 
 大纲如下:
 
-[网络问题排查手段]( https://github.com/HobbyBear/performance-analyze/blob/119f4e6cabe5190eb692e79983e0766cab8481f5/performance_analysis_basics/(1)%E7%BD%91%E7%BB%9C%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5%E6%89%8B%E6%AE%B5.md )
+[网络问题排查手段](./(1)网络问题排查手段.md)
 
-[cpu和内存的性能问题 分析思路]( https://github.com/HobbyBear/performance-analyze/blob/119f4e6cabe5190eb692e79983e0766cab8481f5/performance_analysis_basics/(2)cpu%E5%92%8C%E5%86%85%E5%AD%98%E7%9A%84%E6%80%A7%E8%83%BD%E9%97%AE%E9%A2%98%20%E5%88%86%E6%9E%90%E6%80%9D%E8%B7%AF.md )
+[cpu和内存的性能问题 分析思路](./(2)cpu和内存的性能问题 分析思路.md)
 
-[io性能问题 分析思路]( https://github.com/HobbyBear/performance-analyze/blob/119f4e6cabe5190eb692e79983e0766cab8481f5/performance_analysis_basics/(3)io%20%E6%80%A7%E8%83%BD%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90%E6%80%9D%E8%B7%AF.md )
-
+[io性能问题 分析思路]( ./(3)io 性能问题分析思路.md)
 
 
