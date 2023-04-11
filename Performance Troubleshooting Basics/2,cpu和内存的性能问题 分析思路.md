@@ -1,6 +1,6 @@
 # cpu和内存的性能问题 分析思路
 
-在之前一篇[网络性能问题排查思路](https://github.com/HobbyBear/performance-analyze/blob/main/Performance%2520Troubleshooting%2520Basics/%25E7%25BD%2591%25E7%25BB%259C%25E9%2597%25AE%25E9%25A2%2598%25E6%258E%2592%25E6%259F%25A5%25E6%2589%258B%25E6%25AE%25B5.md)里，我将性能分析步骤分为3个步骤，这里我再将这3个步骤列举出来：
+在之前一篇[网络性能问题排查思路](https://github.com/HobbyBear/performance-analyze/blob/de48368f6fbbc1a9de7f98ab710d3482447f13ce/Performance%20Troubleshooting%20Basics/%E7%BD%91%E7%BB%9C%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5%E6%89%8B%E6%AE%B5.md)里，我将性能分析步骤分为3个步骤，这里我再将这3个步骤列举出来：
 
 1，系统层面发现问题
 
@@ -57,7 +57,7 @@ top命令的下半部分是进行列表，我们可以在top输出界面按大�
 cpu的性能排查可以说相对来说比较容易，一个top便可以将系统和进程的cpu情况展示出来，假设此时你已经发现某个进程的cpu比较高，那么如何找到具体是哪段代码消耗cpu或者内存比较多呢？
 
 由于我比较熟悉golang，所以我还是用go程序来举例，golang中内置的pprof工具可以通过采样的方式分析程序的cpu或者内存占用。生成cpu的性能分析文件的方式可以采用http生成网页的方式也可以用程序代码，具体的通过pprof查看cpu的使用和统计原理 可以看[golang pprof 监控系列(5) —— cpu 使用 统计原理
-]( https://github.com/HobbyBear/performance-analyze/blob/main/golang%20pprof%20tools/golang%20pprof%20%E7%9B%91%E6%8E%A7%E7%B3%BB%E5%88%97(5)%20%E2%80%94%E2%80%94%20cpu%20%E4%BD%BF%E7%94%A8%20%E7%BB%9F%E8%AE%A1%E5%8E%9F%E7%90%86.md ) 以及 [golang pprof监控系列（2） —— memory，block，mutex 使用](https://github.com/HobbyBear/performance-analyze/blob/main/golang%20pprof%20tools/golang%20pprof%E7%9B%91%E6%8E%A7%E7%B3%BB%E5%88%97(2%EF%BC%89%20%E2%80%94%E2%80%94%20%20memory%EF%BC%8Cblock%EF%BC%8Cmutex%20%E4%BD%BF%E7%94%A8.md )
+]( https://github.com/HobbyBear/performance-analyze/blob/de48368f6fbbc1a9de7f98ab710d3482447f13ce/golang%20pprof%20tools/golang%20pprof%20%E7%9B%91%E6%8E%A7%E7%B3%BB%E5%88%97(5)%20%E2%80%94%E2%80%94%20cpu%20%E4%BD%BF%E7%94%A8%20%E7%BB%9F%E8%AE%A1%E5%8E%9F%E7%90%86.md ) 以及 [golang pprof监控系列（2） —— memory，block，mutex 使用](https://github.com/HobbyBear/performance-analyze/blob/de48368f6fbbc1a9de7f98ab710d3482447f13ce/golang%20pprof%20tools/golang%20pprof%E7%9B%91%E6%8E%A7%E7%B3%BB%E5%88%97(2%EF%BC%89%20%E2%80%94%E2%80%94%20%20memory%EF%BC%8Cblock%EF%BC%8Cmutex%20%E4%BD%BF%E7%94%A8.md )
 
 至此，我们介绍完了从系统到进程再到具体代码看cpu以及内存使用率的方式。
 
