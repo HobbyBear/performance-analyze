@@ -59,6 +59,32 @@ cpu 各个指标含义如下：
 
 在内存下一行是交换空间的大小，交换空间其实是磁盘上的一片区域，当内存放不下时，本来会触发oom，但是为了在容忍瞬时内存使用超过内存上限时，不对进程oom，我们可以开启交换空间，当内存放不下时，内核会将内核中一部分数据置换到磁盘上，等用到的时候再换回来。
 
+关于page cache，可以使用[hcache](https://github.com/silenceshell/hcache) 工具进行查看，
+
+```shell
+## 查看全局最大被缓存的文件
+sudo ./hcache --top 10 
+
+| Name                                                                                                                                | Size (bytes)   | Pages      | Cached    | Percent |
+|-------------------------------------------------------------------------------------------------------------------------------------+----------------+------------+-----------+---------|
+| /home1/webserver/data/es/nodes/0/indices/GzHWYAvpROCnpF3eAhRxdQ/0/index/_690x.cfs                                                   | 348971539      | 85199      | 44968     | 052.780 |
+| /home1/webserver/data/es/nodes/0/indices/GzHWYAvpROCnpF3eAhRxdQ/0/index/_6de5.cfs                                                   | 173646230      | 42395      | 42395     | 100.000 |
+| /home1/webserver/data/es/nodes/0/indices/GzHWYAvpROCnpF3eAhRxdQ/0/index/_6bqz.cfs                                                   | 201755371      | 49257      | 31490     | 063.930 |
+| /home1/webserver/data/es/nodes/0/indices/GzHWYAvpROCnpF3eAhRxdQ/0/index/_67qa.cfs                                                   | 220642144      | 53868      | 28168     | 052.291 |
+```
+
+也可以指定特定进程查看文件缓存的大小
+```shell
+(base) [webserver@hw-sg1-test-0001 ~]$ sudo ./hcache  -pid  2879
++-------------------------------------------------------------------------------------------------+----------------+------------+-----------+---------+
+| Name                                                                                            | Size (bytes)   | Pages      | Cached    | Percent |
+|-------------------------------------------------------------------------------------------------+----------------+------------+-----------+---------|
+| /home1/webserver/data/es/nodes/0/indices/io05DS3uSZGu2H6793_iQw/0/index/_cz_3_Lucene80_0.dvd    | 97             | 1          | 0         | 000.000 |
+| /usr/lib64/ld-2.17.so                                                                           | 163400         | 40         | 35        | 087.500 |
+| /tmp/hsperfdata_webserver/2879                                                                  | 32768          | 8          | 4         | 050.000 |
+| /home1/webserver/data/es/nodes/0/indices/GzHWYAvpROCnpF3eAhRxdQ/0/index/_690x.cfs               | 348971539      | 85199      | 4
+```
+
 
 top命令的下半部分是进行列表，我们可以在top输出界面按大写P将会按照cpu从大到小排序，或者按大写M进行内存从高到低的排序。
 ```go
