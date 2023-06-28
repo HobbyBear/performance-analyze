@@ -1,4 +1,18 @@
+
+**本系列文章将不再在github上更新，该系列文章以后将在微信公众号上持续更新
+链接如下**
+```shell
+https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzU3NjY5MjY2Ng==&action=getalbum&album_id=2810766531256156162#wechat_redirect
+
+```
+
+## 公众号
+
+![WechatIMG143.jpeg](https://s2.loli.net/2023/04/12/QzqyFU6tjAxKame.jpg)
+
+
 # performance analyze
+
 
 
 大家好，我是蓝胖子。
@@ -67,6 +81,3 @@
 ## 提问与纠错
 如果有疑问或者发现错误，可以在相应的 Issues 进行提问或勘误。
 
-## 公众号
-
-![WechatIMG143.jpeg](https://s2.loli.net/2023/04/12/QzqyFU6tjAxKame.jpg)
